@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karaokebar Macherie | 名古屋・新栄</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+JP:wght@300;400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0005;
+    --deep: #12001a;
+    --pink: #e8408a;
+    --pink-light: #ff6eb0;
+    --pink-pale: #ffd6ec;
+    --gold: #c9a84c;
+    --white: #fff5f9;
+    --gray: rgba(255,245,249,0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* カスタムカーソル */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--pink);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--pink-light);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s;
+    opacity: 0.6;
+  }
+
+  /* パーティクル背景 */
+  .particles {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--pink-light);
+    border-radius: 50%;
+    animation: float linear infinite;
+    opacity: 0;
+  }
+  @keyframes float {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.5rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(10,0,5,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem; letter-spacing: 0.3em;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--pink); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.75rem; letter-spacing: 0.2em;
+    color: rgba(255,245,249,0.6); text-decoration: none;
+    transition: color 0.3s;
+    font-family: 'Cinzel', serif;
+  }
+  .nav-links a:hover { color: var(--pink-light); }
+  .nav-tel {
+    font-size: 0.85rem; color: var(--pink-light);
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background:
+      radial-gradient(ellipse at 30% 50%, rgba(232,64,138,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      var(--black);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&q=80') center/cover;
+    opacity: 0.12;
+    filter: blur(2px);
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 3px,
+      rgba(232,64,138,0.03) 3px, rgba(232,64,138,0.03) 4px
+    );
+  }
+  .hero-inner {
+    position: relative; z-index: 2;
+    text-align: center; padding: 2rem;
+  }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem; letter-spacing: 0.5em;
+    color: var(--pink); margin-bottom: 1.5rem;
+    font-style: italic;
+    animation: fadeUp 1s ease both;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 8vw, 7rem);
+    letter-spacing: 0.15em; line-height: 1.1;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--white) 0%, var(--pink-pale) 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+  .hero-title-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3vw, 1.8rem);
+    letter-spacing: 0.4em; color: var(--pink-light);
+    font-style: italic; margin-bottom: 3rem;
+    animation: fadeUp 1s 0.4s ease both;
+  }
+  .hero-desc {
+    font-size: 0.9rem; line-height: 2;
+    color: rgba(255,245,249,0.7);
+    max-width: 500px; margin: 0 auto 3rem;
+    animation: fadeUp 1s 0.6s ease both;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 1rem;
+    border: 1px solid var(--pink);
+    color: var(--white); padding: 1rem 3rem;
+    text-decoration: none; font-size: 0.8rem;
+    letter-spacing: 0.3em; font-family: 'Cinzel', serif;
+    position: relative; overflow: hidden;
+    transition: color 0.4s;
+    animation: fadeUp 1s 0.8s ease both;
+  }
+  .hero-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--pink);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    z-index: -1;
+  }
+  .hero-cta:hover::before { transform: translateX(0); }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-size: 0.65rem; letter-spacing: 0.3em;
+    color: rgba(255,245,249,0.3);
+  }
+  .hero-scroll::after {
+    content: '';
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--pink), transparent);
+    animation: scrollPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin: 0 auto 3rem; max-width: 300px;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, var(--pink), transparent);
+  }
+  .divider span {
+    color: var(--pink); font-size: 1.2rem;
+  }
+
+  /* ===== SECTIONS ===== */
+  section { padding: 7rem 3rem; position: relative; z-index: 1; }
+  .section-en {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem; letter-spacing: 0.4em;
+    color: var(--pink); margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-style: italic; letter-spacing: 0.05em;
+    margin-bottom: 3rem; line-height: 1.2;
+  }
+
+  /* ===== ABOUT ===== */
+  .about { background: var(--deep); }
+  .about-inner {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .about-img {
+    position: relative;
+  }
+  .about-img img {
+    width: 100%; height: 450px; object-fit: cover;
+    filter: saturate(0.8) brightness(0.9);
+  }
+  .about-img::before {
+    content: '';
+    position: absolute; inset: -8px;
+    border: 1px solid rgba(232,64,138,0.3);
+    z-index: -1;
+  }
+  .about-img::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(232,64,138,0.2), transparent);
+  }
+  .about-text p {
+    font-size: 0.9rem; line-height: 2.2;
+    color: rgba(255,245,249,0.75);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ===== INFO ===== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2px; max-width: 1000px; margin: 0 auto;
+  }
+  .info-card {
+    background: var(--deep);
+    padding: 2.5rem 2rem; text-align: center;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .info-card:hover { transform: translateY(-4px); }
+  .info-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--pink), transparent);
+  }
+  .info-icon {
+    font-size: 2rem; margin-bottom: 1rem;
+  }
+  .info-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem; letter-spacing: 0.3em;
+    color: var(--pink); margin-bottom: 0.8rem;
+  }
+  .info-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; line-height: 1.6;
+    color: var(--white);
+  }
+
+  /* ===== ACCESS ===== */
+  .access { background: var(--deep); }
+  .access-inner {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+  }
+  .access-table { width: 100%; border-collapse: collapse; }
+  .access-table tr { border-bottom: 1px solid rgba(232,64,138,0.15); }
+  .access-table td { padding: 1rem 0; font-size: 0.85rem; vertical-align: top; }
+  .access-table td:first-child {
+    color: var(--pink); font-family: 'Cinzel', serif;
+    font-size: 0.7rem; letter-spacing: 0.15em;
+    width: 100px; padding-top: 1.1rem;
+  }
+  .access-table td:last-child { color: rgba(255,245,249,0.8); line-height: 1.8; }
+  .access-map {
+    position: relative; padding-bottom: 100%; overflow: hidden;
+  }
+  .access-map iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; border: 0;
+    filter: saturate(0.5) brightness(0.7);
+  }
+
+  /* ===== CONTACT ===== */
+  .contact { text-align: center; }
+  .contact-inner { max-width: 600px; margin: 0 auto; }
+  .contact-tel {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; color: var(--pink-light);
+    letter-spacing: 0.1em; margin: 1.5rem 0 0.5rem;
+  }
+  .contact-hours {
+    font-size: 0.8rem; color: rgba(255,245,249,0.4);
+    letter-spacing: 0.15em; margin-bottom: 3rem;
+  }
+  .contact-form { text-align: left; }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label {
+    display: block; font-size: 0.7rem;
+    letter-spacing: 0.2em; font-family: 'Cinzel', serif;
+    color: var(--pink); margin-bottom: 0.5rem;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: rgba(232,64,138,0.05);
+    border: 1px solid rgba(232,64,138,0.2);
+    color: var(--white);
+    padding: 0.9rem 1.2rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.9rem;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none; border-color: var(--pink);
+    background: rgba(232,64,138,0.08);
+  }
+  .form-group textarea { height: 130px; resize: vertical; }
+  .form-submit {
+    width: 100%; background: transparent;
+    border: 1px solid var(--pink);
+    color: var(--white); padding: 1.1rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem; letter-spacing: 0.3em;
+    cursor: pointer; position: relative; overflow: hidden;
+    transition: color 0.4s;
+  }
+  .form-submit::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--pink);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    z-index: -1;
+  }
+  .form-submit:hover::before { transform: translateX(0); }
+
+  /* ===== INSTAGRAM ===== */
+  .instagram { text-align: center; background: var(--deep); }
+  .insta-btn {
+    display: inline-flex; align-items: center; gap: 1rem;
+    border: 1px solid rgba(232,64,138,0.4);
+    color: var(--pink-light); padding: 1rem 3rem;
+    text-decoration: none; font-size: 0.8rem;
+    letter-spacing: 0.2em; font-family: 'Cinzel', serif;
+    transition: all 0.3s;
+    margin-top: 1rem;
+  }
+  .insta-btn:hover {
+    background: rgba(232,64,138,0.1);
+    border-color: var(--pink);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--black);
+    padding: 2.5rem 3rem;
+    text-align: center;
+    border-top: 1px solid rgba(232,64,138,0.15);
+  }
+  .footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem; letter-spacing: 0.3em;
+    color: var(--white); margin-bottom: 0.8rem;
+  }
+  .footer-logo span { color: var(--pink); }
+  .footer-copy {
+    font-size: 0.7rem; color: rgba(255,245,249,0.2);
+    letter-spacing: 0.1em;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .about-inner, .access-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-img img { height: 280px; }
+    footer { padding: 2rem 1.5rem; }
+  }
+
+  /* ===== FADE IN ===== */
+  .fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- パーティクル -->
+<div class="particles" id="particles"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Karaokebar <span>Macherie</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#info">INFO</a></li>
+    <li><a href="#price">PRICE</a></li>
+    <li><a href="#cast">CAST</a></li>
+    <li><a href="#access">ACCESS</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+  <div class="nav-tel">070-8933-4184</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-sub">Nagoya Sakae — Karaoke Bar</p>
+    <p style="font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.4em;color:var(--gold);margin-bottom:1rem;animation:fadeUp 1s 0.1s ease both;">GRAND OPEN — 2026.3.5</p>
+    <h1 class="hero-title">Macherie</h1>
+    <p class="hero-title-sub">マシェリ</p>
+    <p class="hero-desc">
+      名古屋・新栄にひっそりと佇む、大人の隠れ家。<br>
+      一人でも、友人と、恋人と。<br>
+      誰もが自分らしく歌える、特別な夜を。
+    </p>
+    <a href="#contact" class="hero-cta">RESERVE / お問い合わせ</a>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-img fade-in">
+      <img src="macherie_interior.jpg" alt="店内写真">
+    </div>
+    <div class="fade-in">
+      <p class="section-en">ABOUT</p>
+      <h2 class="section-title">アットホームな<br>大人の隠れ家</h2>
+      <p>Karaokebar Macherieは、名古屋・新栄にあるアットホームな雰囲気のカラオケバーです。</p>
+      <p>一人でもふらっと立ち寄りやすく、男女問わず楽しめる隠れ家的な空間が魅力です。お酒を楽しみながら、気兼ねなく歌える特別な時間をお過ごしください。</p>
+      <p style="color:var(--gold);font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.2em;margin-top:1rem;">GRAND OPEN — 2026年3月5日</p>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info">
+  <div style="text-align:center;margin-bottom:3rem;" class="fade-in">
+    <p class="section-en">INFORMATION</p>
+    <h2 class="section-title">店舗情報</h2>
+  </div>
+  <div class="info-grid">
+    <div class="info-card fade-in">
+      <div class="info-icon">🕗</div>
+      <div class="info-label">OPEN HOURS</div>
+      <div class="info-value">20:00 — 翌2:00</div>
+    </div>
+    <div class="info-card fade-in">
+      <div class="info-icon">📅</div>
+      <div class="info-label">CLOSE</div>
+      <div class="info-value">水曜日・祝日</div>
+    </div>
+    <div class="info-card fade-in">
+      <div class="info-icon">📞</div>
+      <div class="info-label">TEL</div>
+      <div class="info-value">070-8933-4184</div>
+    </div>
+    <div class="info-card fade-in">
+      <div class="info-icon">📍</div>
+      <div class="info-label">LOCATION</div>
+      <div class="info-value">名古屋市中区<br>新栄1-12-30<br>ホワイトプラザ2A</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE -->
+<section id="price" style="background:var(--black);">
+  <div style="text-align:center;margin-bottom:3rem;" class="fade-in">
+    <p class="section-en">PRICE</p>
+    <h2 class="section-title">料金システム</h2>
+    <p style="font-size:0.85rem;color:rgba(255,245,249,0.5);letter-spacing:0.1em;">各種決済対応しています</p>
+  </div>
+
+  <div style="max-width:700px;margin:0 auto;">
+
+    <!-- チャージ -->
+    <div class="fade-in" style="text-align:center;border:1px solid rgba(232,64,138,0.3);padding:2.5rem;margin-bottom:2px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--pink),transparent);"></div>
+      <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.3em;color:var(--pink);margin-bottom:0.8rem;">CHARGE</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:var(--white);margin-bottom:0.5rem;">¥2,000</p>
+      <p style="font-size:0.85rem;color:rgba(255,245,249,0.6);letter-spacing:0.1em;">時間無制限・歌い放題つき</p>
+    </div>
+
+    <!-- プラス -->
+    <div class="fade-in" style="text-align:center;padding:1.5rem;color:var(--pink);font-size:2rem;">＋</div>
+
+    <!-- ドリンク -->
+    <div class="fade-in" style="border:1px solid rgba(232,64,138,0.3);padding:2.5rem;margin-bottom:2rem;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--pink),transparent);"></div>
+      <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.3em;color:var(--pink);margin-bottom:1.5rem;text-align:center;">DRINK MENU</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;">
+        <div style="text-align:center;padding:1.5rem;background:rgba(232,64,138,0.05);border:1px solid rgba(232,64,138,0.1);">
+          <p style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--pink);margin-bottom:0.5rem;">SINGLE</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--white);">¥660〜</p>
+          <p style="font-size:0.75rem;color:rgba(255,245,249,0.5);margin-top:0.3rem;">単品</p>
+        </div>
+        <div style="text-align:center;padding:1.5rem;background:rgba(232,64,138,0.05);border:1px solid rgba(232,64,138,0.1);">
+          <p style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--pink);margin-bottom:0.5rem;">ALL YOU CAN DRINK</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--white);">¥1,500</p>
+          <p style="font-size:0.75rem;color:rgba(255,245,249,0.5);margin-top:0.3rem;">飲み放題／1時間毎</p>
+        </div>
+        <div style="text-align:center;padding:1.5rem;background:rgba(232,64,138,0.05);border:1px solid rgba(232,64,138,0.1);">
+          <p style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--pink);margin-bottom:0.5rem;">BOTTLE KEEP</p>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--white);">¥4,800〜</p>
+          <p style="font-size:0.75rem;color:rgba(255,245,249,0.5);margin-top:0.3rem;">氷・割り物 ¥800/各</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="fade-in" style="text-align:center;font-size:0.8rem;color:rgba(255,245,249,0.4);letter-spacing:0.15em;">
+      ※ 各種クレジットカード・電子マネー対応しています
+    </p>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="instagram" id="instagram">
+  <div class="fade-in">
+    <p class="section-en">INSTAGRAM</p>
+    <h2 class="section-title">最新情報はInstagramで</h2>
+    <p style="font-size:0.85rem;color:rgba(255,245,249,0.6);line-height:2;">
+      混雑状況・キャンペーン・店内の様子など<br>最新情報をInstagramで随時発信しています。
+    </p>
+    <a href="https://www.instagram.com/karaokebar_macherie/" target="_blank" class="insta-btn">
+      ♡ @karaokebar_macherie をフォローする
+    </a>
+  </div>
+</section>
+
+<!-- CAST -->
+<section id="cast" style="background:var(--black);">
+  <div style="text-align:center;margin-bottom:3rem;" class="fade-in">
+    <p class="section-en">CAST WANTED</p>
+    <h2 class="section-title">キャスト大募集！</h2>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:var(--pink-light);letter-spacing:0.2em;">一緒に楽しく働きませんか？</p>
+  </div>
+
+  <div style="max-width:800px;margin:0 auto;">
+
+    <!-- キャッチコピー -->
+    <div class="fade-in" style="text-align:center;padding:3rem 2rem;border:1px solid rgba(232,64,138,0.2);margin-bottom:2rem;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent);"></div>
+      <p style="font-size:1.1rem;line-height:2.2;color:rgba(255,245,249,0.85);">
+        カラオケが好き、お酒が好き、<br>
+        人と話すのが好き…<br>
+        きっかけはなんでもOK！<br>
+        <span style="color:var(--pink-light);font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-style:italic;">あなたらしく輝ける場所がここにあります♪</span>
+      </p>
+    </div>
+
+    <!-- 4つの特徴 -->
+    <p class="fade-in" style="text-align:center;font-size:0.8rem;letter-spacing:0.3em;color:var(--gold);margin-bottom:1.5rem;font-family:'Cinzel',serif;">こんな方にピッタリ♪</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2px;margin-bottom:2rem;">
+      <div class="fade-in" style="background:var(--deep);padding:2rem 1rem;text-align:center;border-top:2px solid var(--pink);">
+        <div style="font-size:2rem;margin-bottom:0.8rem;">💎</div>
+        <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.15em;color:var(--pink);margin-bottom:0.5rem;">未経験OK</p>
+        <p style="font-size:0.78rem;color:rgba(255,245,249,0.6);line-height:1.6;">丁寧にサポートします！</p>
+      </div>
+      <div class="fade-in" style="background:var(--deep);padding:2rem 1rem;text-align:center;border-top:2px solid var(--pink);">
+        <div style="font-size:2rem;margin-bottom:0.8rem;">✨</div>
+        <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.15em;color:var(--pink);margin-bottom:0.5rem;">ノルマなし</p>
+        <p style="font-size:0.78rem;color:rgba(255,245,249,0.6);line-height:1.6;">自分のペースで働けます！</p>
+      </div>
+      <div class="fade-in" style="background:var(--deep);padding:2rem 1rem;text-align:center;border-top:2px solid var(--pink);">
+        <div style="font-size:2rem;margin-bottom:0.8rem;">🌙</div>
+        <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.15em;color:var(--pink);margin-bottom:0.5rem;">終電までOK</p>
+        <p style="font-size:0.78rem;color:rgba(255,245,249,0.6);line-height:1.6;">終電後の心配なし♪</p>
+      </div>
+      <div class="fade-in" style="background:var(--deep);padding:2rem 1rem;text-align:center;border-top:2px solid var(--pink);">
+        <div style="font-size:2rem;margin-bottom:0.8rem;">📅</div>
+        <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.15em;color:var(--pink);margin-bottom:0.5rem;">自由シフト制</p>
+        <p style="font-size:0.78rem;color:rgba(255,245,249,0.6);line-height:1.6;">週1日〜OK！Wワークも◎</p>
+      </div>
+    </div>
+
+    <!-- お仕事内容 -->
+    <div class="fade-in" style="border:1px solid rgba(232,64,138,0.2);padding:2.5rem;margin-bottom:2rem;position:relative;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--pink),transparent);"></div>
+      <p style="font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.3em;color:var(--pink);margin-bottom:1.5rem;text-align:center;">お仕事内容</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem;">
+        <p style="font-size:0.85rem;color:rgba(255,245,249,0.8);text-align:center;padding:0.8rem;background:rgba(232,64,138,0.05);">💬 お客様と楽しくお話</p>
+        <p style="font-size:0.85rem;color:rgba(255,245,249,0.8);text-align:center;padding:0.8rem;background:rgba(232,64,138,0.05);">🎤 カラオケのサポート</p>
+        <p style="font-size:0.85rem;color:rgba(255,245,249,0.8);text-align:center;padding:0.8rem;background:rgba(232,64,138,0.05);">🍹 簡単なお酒作り</p>
+      </div>
+      <p style="text-align:center;font-size:0.9rem;color:var(--pink-light);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;">
+        難しいお仕事は一切なし！笑顔があれば大丈夫です♪
+      </p>
+    </div>
+
+    <!-- 応募ボタン -->
+    <div class="fade-in" style="text-align:center;">
+      <p style="font-size:0.85rem;color:rgba(255,245,249,0.5);margin-bottom:1.5rem;">まずはお気軽にご連絡ください</p>
+      <a href="#contact" style="display:inline-flex;align-items:center;gap:1rem;border:1px solid var(--pink);color:var(--white);padding:1.2rem 4rem;text-decoration:none;font-size:0.8rem;letter-spacing:0.3em;font-family:'Cinzel',serif;position:relative;overflow:hidden;transition:color 0.4s;">
+        応募・お問い合わせはこちら
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACCESS -->
+<section class="access" id="access">
+  <div class="access-inner">
+    <div class="fade-in">
+      <p class="section-en">ACCESS</p>
+      <h2 class="section-title">アクセス</h2>
+      <table class="access-table">
+        <tr><td>ADDRESS</td><td>〒460-0007 愛知県名古屋市中区新栄1-12-30 ホワイトプラザ2F</td></tr>
+        <tr><td>TEL</td><td>070-8933-4184</td></tr>
+        <tr><td>OPEN</td><td>20:00〜翌2:00（月〜日）</td></tr>
+        <tr><td>CLOSE</td><td>水曜日・祝日</td></tr>
+        <tr><td>ACCESS</td><td>地下鉄東山線「栄」駅<br>出口13より徒歩約9分</td></tr>
+      </table>
+    </div>
+    <div class="access-map fade-in">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.5!2d136.916!3d35.163!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z5ZCN5Y-k5bGL5biC5Lit5Yy65paw5qCEMS0xMi0zMA!5e0!3m2!1sja!2sjp!4v1234567890"
+        allowfullscreen="" loading="lazy">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner fade-in">
+    <p class="section-en">CONTACT</p>
+    <h2 class="section-title">お問い合わせ・ご予約</h2>
+    <p style="font-size:0.85rem;color:rgba(255,245,249,0.5);margin-bottom:1rem;">
+      お電話またはフォームよりお気軽にどうぞ
+    </p>
+    <div class="contact-tel">070-8933-4184</div>
+    <p class="contact-hours">営業時間：20:00〜翌2:00（水曜・祝日定休）</p>
+    <div class="contact-form">
+      <div class="form-group">
+        <label>NAME / お名前</label>
+        <input type="text" placeholder="山田 花子">
+      </div>
+      <div class="form-group">
+        <label>TEL / 電話番号</label>
+        <input type="tel" placeholder="090-XXXX-XXXX">
+      </div>
+      <div class="form-group">
+        <label>MESSAGE / お問い合わせ内容</label>
+        <textarea placeholder="ご予約希望日時・人数・ご質問など"></textarea>
+      </div>
+      <button class="form-submit" onclick="alert('お問い合わせありがとうございます。確認次第ご連絡いたします。')">
+        SEND MESSAGE
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Karaokebar <span>Macherie</span></div>
+  <p class="footer-copy">© 2024 Karaokebar Macherie. All Rights Reserved.</p>
+</footer>
+
+<script>
+  // カスタムカーソル
+  const cursor = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    setTimeout(() => {
+      cursorRing.style.left = e.clientX + 'px';
+      cursorRing.style.top = e.clientY + 'px';
+    }, 80);
+  });
+
+  // パーティクル生成
+  const particlesContainer = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.classList.add('particle');
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (Math.random() * 10 + 8) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
+    particlesContainer.appendChild(p);
+  }
+
+  // フェードイン
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 120);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
