@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YJWORKS | ホームページ制作</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Sans+JP:wght@300;400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #122040;
+    --navy-light: #1a3a6c;
+    --gold: #c9a84c;
+    --gold-light: #e8c96e;
+    --white: #f8f6f0;
+    --gray: #8a8a8a;
+    --light: #eef2f8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--white);
+    color: var(--navy);
+    overflow-x: hidden;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(10,22,40,0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem; letter-spacing: 0.3em;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.75rem; letter-spacing: 0.15em;
+    color: rgba(248,246,240,0.7); text-decoration: none;
+    font-family: 'Cinzel', serif;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold); color: var(--navy);
+    padding: 0.6rem 1.5rem;
+    font-size: 0.75rem; letter-spacing: 0.15em;
+    font-family: 'Cinzel', serif; font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #0d2144 100%);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 80% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(26,58,108,0.5) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-inner {
+    position: relative; z-index: 2;
+    padding: 0 3rem; max-width: 800px; margin-left: 8%;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem; letter-spacing: 0.4em;
+    color: var(--gold); margin-bottom: 2rem;
+  }
+  .hero-tag::before {
+    content: ''; width: 40px; height: 1px; background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1.2; letter-spacing: 0.05em;
+    color: var(--white); margin-bottom: 1rem;
+  }
+  .hero-title .gold { color: var(--gold); }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-style: italic; color: rgba(248,246,240,0.6);
+    letter-spacing: 0.1em; margin-bottom: 2rem;
+  }
+  .hero-desc {
+    font-size: 0.9rem; line-height: 2;
+    color: rgba(248,246,240,0.7);
+    max-width: 500px; margin-bottom: 3rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--navy);
+    padding: 1rem 2.5rem; text-decoration: none;
+    font-family: 'Cinzel', serif; font-size: 0.8rem;
+    letter-spacing: 0.2em; font-weight: 600;
+    transition: all 0.3s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-secondary {
+    border: 1px solid rgba(201,168,76,0.5); color: var(--white);
+    padding: 1rem 2.5rem; text-decoration: none;
+    font-family: 'Cinzel', serif; font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    transition: all 0.3s;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-numbers {
+    position: absolute; right: 8%; bottom: 10%;
+    display: flex; gap: 3rem;
+  }
+  .hero-num { text-align: center; }
+  .hero-num-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; color: var(--gold); line-height: 1;
+  }
+  .hero-num-label {
+    font-size: 0.7rem; color: rgba(248,246,240,0.5);
+    letter-spacing: 0.15em; margin-top: 0.3rem;
+  }
+
+  /* ===== SECTIONS ===== */
+  section { padding: 7rem 3rem; }
+  .section-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem; letter-spacing: 0.4em;
+    color: var(--gold); margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-tag::after { content: ''; flex: 0 0 40px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600; line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 0.85rem; color: var(--gray);
+    line-height: 1.8; max-width: 500px;
+    margin-bottom: 3rem;
+  }
+
+  /* ===== STRENGTHS ===== */
+  .strengths { background: var(--navy); }
+  .strengths .section-title { color: var(--white); }
+  .strengths .section-sub { color: rgba(248,246,240,0.6); }
+  .strengths-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px;
+  }
+  .strength-card {
+    background: var(--navy-mid);
+    padding: 2.5rem;
+    border-top: 2px solid var(--gold);
+    transition: transform 0.3s;
+  }
+  .strength-card:hover { transform: translateY(-4px); }
+  .strength-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; color: rgba(201,168,76,0.2);
+    line-height: 1; margin-bottom: 1rem;
+  }
+  .strength-title {
+    font-size: 1rem; font-weight: 700;
+    color: var(--white); margin-bottom: 0.8rem;
+  }
+  .strength-desc {
+    font-size: 0.82rem; color: rgba(248,246,240,0.6);
+    line-height: 1.9;
+  }
+
+  /* ===== PLANS ===== */
+  .plans { background: var(--light); }
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px; max-width: 1000px; margin: 0 auto;
+  }
+  .plan-card {
+    background: var(--white);
+    padding: 2.5rem;
+    border-top: 3px solid #ddd;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .plan-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(10,22,40,0.1); }
+  .plan-card.recommended {
+    border-top-color: var(--gold);
+    background: var(--navy);
+  }
+  .plan-card.recommended .plan-name,
+  .plan-card.recommended .plan-price,
+  .plan-card.recommended .plan-desc,
+  .plan-card.recommended .plan-feature { color: var(--white); }
+  .plan-card.recommended .plan-price-sub { color: rgba(248,246,240,0.5); }
+  .recommended-badge {
+    position: absolute; top: -1px; right: 2rem;
+    background: var(--gold); color: var(--navy);
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.15em; padding: 0.3rem 0.8rem;
+    font-family: 'Cinzel', serif;
+  }
+  .plan-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem; letter-spacing: 0.3em;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .plan-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem; color: var(--navy);
+    line-height: 1; margin-bottom: 0.3rem;
+  }
+  .plan-price-sub {
+    font-size: 0.75rem; color: var(--gray);
+    margin-bottom: 1.5rem;
+  }
+  .plan-desc {
+    font-size: 0.82rem; color: var(--gray);
+    line-height: 1.8; margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(10,22,40,0.1);
+  }
+  .plan-card.recommended .plan-desc { border-bottom-color: rgba(248,246,240,0.1); }
+  .plan-feature {
+    font-size: 0.8rem; color: var(--navy);
+    line-height: 2;
+  }
+  .plan-feature li { list-style: none; padding-left: 1.2rem; position: relative; }
+  .plan-feature li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--gold); font-weight: 700;
+  }
+
+  /* ===== MAINTENANCE ===== */
+  .maintenance { background: var(--white); }
+  .maintenance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px; max-width: 1000px; margin: 0 auto;
+  }
+  .maintenance-card {
+    border: 1px solid rgba(10,22,40,0.1);
+    padding: 2.5rem;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .maintenance-card:hover { border-color: var(--gold); }
+  .maintenance-card.recommended {
+    border-color: var(--gold);
+    background: var(--navy);
+  }
+  .maintenance-card.recommended .maintenance-name,
+  .maintenance-card.recommended .maintenance-price,
+  .maintenance-card.recommended .maintenance-desc,
+  .maintenance-card.recommended .maintenance-feature { color: var(--white); }
+  .maintenance-card.recommended .maintenance-price-sub { color: rgba(248,246,240,0.5); }
+  .maintenance-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem; letter-spacing: 0.3em;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .maintenance-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; color: var(--navy);
+    line-height: 1;
+  }
+  .maintenance-price-sub {
+    font-size: 0.75rem; color: var(--gray);
+    margin-bottom: 1.5rem;
+  }
+  .maintenance-desc {
+    font-size: 0.82rem; color: var(--gray);
+    line-height: 1.8; margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(10,22,40,0.1);
+  }
+  .maintenance-card.recommended .maintenance-desc { border-bottom-color: rgba(248,246,240,0.1); }
+  .maintenance-feature {
+    font-size: 0.8rem; color: var(--navy); line-height: 2;
+  }
+  .maintenance-feature li { list-style: none; padding-left: 1.2rem; position: relative; }
+  .maintenance-feature li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--gold); font-weight: 700;
+  }
+
+  /* ===== FLOW ===== */
+  .flow { background: var(--light); }
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0; max-width: 1000px; margin: 0 auto;
+    position: relative;
+  }
+  .flow-step {
+    padding: 2rem 1.5rem; text-align: center;
+    position: relative;
+  }
+  .flow-step::after {
+    content: '→';
+    position: absolute; right: -10px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--gold); font-size: 1.2rem;
+  }
+  .flow-step:last-child::after { display: none; }
+  .flow-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem; color: var(--gold);
+    line-height: 1; margin-bottom: 0.8rem;
+  }
+  .flow-title {
+    font-size: 0.85rem; font-weight: 700;
+    margin-bottom: 0.5rem; color: var(--navy);
+  }
+  .flow-desc {
+    font-size: 0.75rem; color: var(--gray); line-height: 1.7;
+  }
+
+  /* ===== WORKS ===== */
+  .works { background: var(--navy); }
+  .works .section-title { color: var(--white); }
+  .works .section-sub { color: rgba(248,246,240,0.6); }
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+  }
+  .work-card {
+    background: var(--navy-mid);
+    padding: 2rem;
+    border-left: 3px solid var(--gold);
+    transition: transform 0.3s;
+  }
+  .work-card:hover { transform: translateX(4px); }
+  .work-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem; letter-spacing: 0.2em;
+    color: var(--gold); margin-bottom: 0.8rem;
+  }
+  .work-name {
+    font-size: 1rem; font-weight: 700;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+  .work-desc {
+    font-size: 0.8rem; color: rgba(248,246,240,0.5);
+    line-height: 1.7; margin-bottom: 1rem;
+  }
+  .work-link {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    color: var(--gold); text-decoration: none;
+  }
+  .work-link:hover { color: var(--gold-light); }
+
+  /* ===== CONTACT ===== */
+  .contact { background: var(--white); }
+  .contact-inner {
+    max-width: 700px; margin: 0 auto; text-align: center;
+  }
+  .contact-line-box {
+    background: var(--navy);
+    padding: 3rem; margin-bottom: 2rem;
+  }
+  .contact-line-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem; letter-spacing: 0.3em;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .contact-line-desc {
+    font-size: 0.85rem; color: rgba(248,246,240,0.7);
+    line-height: 1.8; margin-bottom: 2rem;
+  }
+  .line-btn {
+    display: inline-flex; align-items: center; gap: 0.8rem;
+    background: #06C755; color: var(--white);
+    padding: 1rem 2.5rem; text-decoration: none;
+    font-weight: 700; font-size: 0.9rem;
+    border-radius: 2px;
+    transition: opacity 0.3s;
+  }
+  .line-btn:hover { opacity: 0.85; }
+  .line-qr {
+    width: 120px; height: 120px;
+    margin: 1.5rem auto 0;
+  }
+  .line-qr img { width: 100%; height: 100%; object-fit: contain; background: white; padding: 8px; }
+  .contact-note {
+    font-size: 0.78rem; color: var(--gray);
+    line-height: 1.8;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--navy);
+    padding: 2.5rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+  .footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem; letter-spacing: 0.3em; color: var(--white);
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-copy { font-size: 0.72rem; color: rgba(248,246,240,0.3); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 1.5rem; }
+    .hero-inner { padding: 0 1.5rem; margin-left: 0; }
+    .hero-numbers { position: static; margin-top: 3rem; }
+    .flow-step::after { display: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+
+  /* ===== FADE IN ===== */
+  .fade-in {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YJ<span>WORKS</span></div>
+  <ul class="nav-links">
+    <li><a href="#strengths">強み</a></li>
+    <li><a href="#plans">料金プラン</a></li>
+    <li><a href="#flow">制作の流れ</a></li>
+    <li><a href="#works">制作実績</a></li>
+    <li><a href="#contact">お問い合わせ</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">無料相談</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <p class="hero-tag">HOMEPAGE PRODUCTION</p>
+    <h1 class="hero-title">
+      あなたのビジネスを、<br>
+      <span class="gold">WEBで輝かせる。</span>
+    </h1>
+    <p class="hero-subtitle">Professional Web Creation for Your Business</p>
+    <p class="hero-desc">
+      YJWORKSは、愛知県岡崎市を拠点とするホームページ制作サービスです。大手制作会社と同品質のデザインを、リーズナブルな価格でご提供します。
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">無料相談はこちら</a>
+      <a href="#plans" class="btn-secondary">料金を見る</a>
+    </div>
+  </div>
+  <div class="hero-numbers">
+    <div class="hero-num fade-in">
+      <div class="hero-num-val">¥80,000</div>
+      <div class="hero-num-label">制作費（税抜）〜</div>
+    </div>
+    <div class="hero-num fade-in">
+      <div class="hero-num-val">最短</div>
+      <div class="hero-num-label">1週間で納品</div>
+    </div>
+    <div class="hero-num fade-in">
+      <div class="hero-num-val">無料</div>
+      <div class="hero-num-label">お見積り・ご相談</div>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section class="strengths" id="strengths">
+  <p class="section-tag" style="color:var(--gold);">OUR STRENGTHS</p>
+  <h2 class="section-title" style="color:var(--white);">大手制作会社との違い</h2>
+  <p class="section-sub" style="color:rgba(248,246,240,0.6);">YJWORKSが選ばれる理由をご紹介します。</p>
+  <div class="strengths-grid">
+    <div class="strength-card fade-in">
+      <div class="strength-num">01</div>
+      <div class="strength-title">圧倒的なコストパフォーマンス</div>
+      <div class="strength-desc">大手制作会社では30〜100万円かかるホームページも、YJWORKSなら8万円〜。余計な中間コストを省き、品質はそのままに低価格を実現します。</div>
+    </div>
+    <div class="strength-card fade-in">
+      <div class="strength-num">02</div>
+      <div class="strength-title">スピード納品</div>
+      <div class="strength-desc">大手制作会社では数ヶ月かかる制作期間も、YJWORKSなら最短1週間で納品。ビジネスのスタートを待たせません。</div>
+    </div>
+    <div class="strength-card fade-in">
+      <div class="strength-num">03</div>
+      <div class="strength-title">担当者が直接対応</div>
+      <div class="strength-desc">大手では担当者が複数いて意思疎通に時間がかかりがちです。YJWORKSでは代表が直接対応するため、ご要望を即座に反映できます。</div>
+    </div>
+    <div class="strength-card fade-in">
+      <div class="strength-num">04</div>
+      <div class="strength-title">柔軟なカスタマイズ</div>
+      <div class="strength-desc">テンプレートに縛られず、お客様のビジネスに合わせたオリジナルデザインを制作。業種・規模を問わず幅広く対応します。</div>
+    </div>
+    <div class="strength-card fade-in">
+      <div class="strength-num">05</div>
+      <div class="strength-title">スマホ完全対応</div>
+      <div class="strength-desc">全プランでスマートフォン・タブレット対応（レスポンシブデザイン）を標準装備。追加費用は一切かかりません。</div>
+    </div>
+    <div class="strength-card fade-in">
+      <div class="strength-num">06</div>
+      <div class="strength-title">納品後も安心のサポート</div>
+      <div class="strength-desc">納品後の修正対応や月々の保守管理プランもご用意。長期的なパートナーとしてビジネスを支援します。</div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="plans" id="plans">
+  <p class="section-tag">PLANS</p>
+  <h2 class="section-title">制作プラン</h2>
+  <p class="section-sub">すべてのプランにスマホ対応・問合せフォームが含まれます。</p>
+  <div class="plans-grid">
+    <div class="plan-card fade-in">
+      <div class="plan-name">LIGHT</div>
+      <div class="plan-price">¥80,000</div>
+      <div class="plan-price-sub">税抜 / 税込¥88,000</div>
+      <div class="plan-desc">シンプルな会社紹介サイトをお手頃価格で。開業したばかりの方や、まずはWEB上に存在感を出したい方に最適です。</div>
+      <ul class="plan-feature">
+        <li>3ページ構成</li>
+        <li>スマホ対応</li>
+        <li>お問い合わせフォーム</li>
+        <li>Google マップ埋め込み</li>
+        <li>納品後14日間修正対応</li>
+      </ul>
+    </div>
+    <div class="plan-card recommended fade-in">
+      <div class="recommended-badge">RECOMMEND</div>
+      <div class="plan-name">STANDARD</div>
+      <div class="plan-price">¥150,000</div>
+      <div class="plan-price-sub">税抜 / 税込¥165,000</div>
+      <div class="plan-desc">集客・採用・信頼構築に必要な情報をしっかり掲載。最もご依頼の多い人気プランです。</div>
+      <ul class="plan-feature">
+        <li>5ページ構成</li>
+        <li>スマホ対応</li>
+        <li>お問い合わせフォーム</li>
+        <li>Google マップ埋め込み</li>
+        <li>採用ページ</li>
+        <li>施工・サービス実績ページ</li>
+        <li>納品後14日間修正対応</li>
+      </ul>
+    </div>
+    <div class="plan-card fade-in">
+      <div class="plan-name">PREMIUM</div>
+      <div class="plan-price">¥300,000</div>
+      <div class="plan-price-sub">税抜 / 税込¥330,000</div>
+      <div class="plan-desc">本格的なコーポレートサイトをご希望の方に。SEO対策・多ページ構成で集客力を最大化します。</div>
+      <ul class="plan-feature">
+        <li>10ページ構成</li>
+        <li>スマホ対応</li>
+        <li>お問い合わせフォーム</li>
+        <li>SEO基本対策</li>
+        <li>Google マップ埋め込み</li>
+        <li>採用・実績・ブログページ</li>
+        <li>アクセス解析設定</li>
+        <li>納品後30日間修正対応</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- MAINTENANCE -->
+<section class="maintenance" id="maintenance">
+  <p class="section-tag">MAINTENANCE</p>
+  <h2 class="section-title">保守管理プラン</h2>
+  <p class="section-sub">納品後も安心してお任せいただけます。月々の管理をYJWORKSにお任せください。</p>
+  <div class="maintenance-grid">
+    <div class="maintenance-card fade-in">
+      <div class="maintenance-name">LIGHT</div>
+      <div class="maintenance-price">¥5,000</div>
+      <div class="maintenance-price-sub">税抜 / 月額</div>
+      <div class="maintenance-desc">最低限の管理だけお任せしたい方向け。サーバー・ドメインの維持管理に特化したプランです。</div>
+      <ul class="maintenance-feature">
+        <li>サーバー管理</li>
+        <li>ドメイン管理</li>
+        <li>サイト正常動作確認（月1回）</li>
+      </ul>
+    </div>
+    <div class="maintenance-card recommended fade-in">
+      <div class="recommended-badge">RECOMMEND</div>
+      <div class="maintenance-name">STANDARD</div>
+      <div class="maintenance-price">¥8,000</div>
+      <div class="maintenance-price-sub">税抜 / 月額</div>
+      <div class="maintenance-desc">最もコストパフォーマンスの高い人気プラン。管理から更新まで安心してお任せいただけます。</div>
+      <ul class="maintenance-feature">
+        <li>サーバー・ドメイン管理</li>
+        <li>サイト正常動作確認（月1回）</li>
+        <li>コンテンツ更新（月2回）</li>
+        <li>軽微な修正対応</li>
+      </ul>
+    </div>
+    <div class="maintenance-card fade-in">
+      <div class="maintenance-name">FULL</div>
+      <div class="maintenance-price">¥15,000</div>
+      <div class="maintenance-price-sub">税抜 / 月額</div>
+      <div class="maintenance-desc">更新頻度が高い方・SEO対策も継続したい方向けのフルサポートプランです。</div>
+      <ul class="maintenance-feature">
+        <li>サーバー・ドメイン管理</li>
+        <li>サイト正常動作確認（月1回）</li>
+        <li>コンテンツ更新（月4回まで）</li>
+        <li>軽微な修正対応</li>
+        <li>月次アクセスレポート</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW -->
+<section class="flow" id="flow">
+  <p class="section-tag">FLOW</p>
+  <h2 class="section-title">制作の流れ</h2>
+  <p class="section-sub">お問い合わせから納品まで、スムーズに進めます。</p>
+  <div class="flow-steps">
+    <div class="flow-step fade-in">
+      <div class="flow-num">01</div>
+      <div class="flow-title">無料相談</div>
+      <div class="flow-desc">LINEまたはメールにてお気軽にご相談ください。</div>
+    </div>
+    <div class="flow-step fade-in">
+      <div class="flow-num">02</div>
+      <div class="flow-title">ヒアリング</div>
+      <div class="flow-desc">業種・ご要望・掲載内容などを確認します。</div>
+    </div>
+    <div class="flow-step fade-in">
+      <div class="flow-num">03</div>
+      <div class="flow-title">お見積り</div>
+      <div class="flow-desc">内容をもとに無料でお見積りをご提示します。</div>
+    </div>
+    <div class="flow-step fade-in">
+      <div class="flow-num">04</div>
+      <div class="flow-title">制作開始</div>
+      <div class="flow-desc">ご契約後、デザイン・コーディングを進めます。</div>
+    </div>
+    <div class="flow-step fade-in">
+      <div class="flow-num">05</div>
+      <div class="flow-title">確認・修正</div>
+      <div class="flow-desc">完成サイトをご確認いただき、修正対応します。</div>
+    </div>
+    <div class="flow-step fade-in">
+      <div class="flow-num">06</div>
+      <div class="flow-title">納品・公開</div>
+      <div class="flow-desc">ご入金確認後、サーバーへアップして公開します。</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section class="works" id="works">
+  <p class="section-tag" style="color:var(--gold);">WORKS</p>
+  <h2 class="section-title">制作実績</h2>
+  <p class="section-sub">YJWORKSが手がけたホームページをご紹介します。</p>
+  <div class="works-grid">
+    <div class="work-card fade-in">
+      <div class="work-tag">建設業 / 足場工事</div>
+      <div class="work-name">株式会社小野塚工業</div>
+      <div class="work-desc">愛知県岡崎市を拠点とする足場鳶工事専門業者のコーポレートサイト。採用・アクセス・お問い合わせページを含む5ページ構成。</div>
+      <a href="https://tokoseeen-jirou.github.io/yjworks/onodzukakougyou.html" target="_blank" class="work-link">サイトを見る →</a>
+    </div>
+    <div class="work-card fade-in">
+      <div class="work-tag">飲食・エンタメ / カラオケバー</div>
+      <div class="work-name">Karaokebar Macherie</div>
+      <div class="work-desc">名古屋・新栄にあるアットホームなカラオケバーのホームページ。料金・採用・アクセスを掲載した6ページ構成。</div>
+      <a href="https://tokoseeen-jirou.github.io/yjworks/macherie.html" target="_blank" class="work-link">サイトを見る →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <p class="section-tag" style="justify-content:center;">CONTACT</p>
+    <h2 class="section-title">お問い合わせ</h2>
+    <p class="section-sub" style="margin:0 auto 3rem;">お見積り・ご相談は無料です。お気軽にご連絡ください。</p>
+
+    <div class="contact-line-box fade-in">
+      <p class="contact-line-title">LINE で簡単にご相談</p>
+      <p class="contact-line-desc">
+        LINEからお気軽にメッセージをお送りください。<br>
+        お見積り・ご質問・ご相談、なんでもお気軽にどうぞ。
+      </p>
+      <a href="https://line.me/R/ti/p/@717wduap" target="_blank" class="line-btn">
+        LINE で相談する
+      </a>
+      <div class="line-qr">
+        <img src="line_qr.png" alt="LINE QRコード">
+      </div>
+      <p style="font-size:0.72rem;color:rgba(248,246,240,0.4);margin-top:0.8rem;">
+        QRコードを読み取って友だち追加してください
+      </p>
+    </div>
+
+    <p class="contact-note">
+      ※ お問い合わせ内容によっては返信にお時間をいただく場合がございます。<br>
+      ※ 対応エリア：愛知県全域・岐阜県・三重県（その他はご相談ください）
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">YJ<span>WORKS</span></div>
+  <div class="footer-copy">© 2026 YJWORKS. All Rights Reserved.</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
