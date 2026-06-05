@@ -3,28 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>株式会社小野塚工業 | とび・土工工事</title>
+<title>株式会社小野塚工業 | 足場鳶工事 愛知県岡崎市</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Bebas+Neue&family=Shippori+Mincho:wght@700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black: #0a0a0a;
-    --steel: #1c2b3a;
     --orange: #e8621a;
     --orange-light: #ff7a2f;
-    --white: #f5f2ee;
-    --gray: #8a8a8a;
-    --light-gray: #e8e4de;
+    --navy: #1a2940;
+    --white: #ffffff;
+    --light: #f5f7fa;
+    --gray: #666666;
+    --text: #333333;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
     font-family: 'Noto Sans JP', sans-serif;
-    background: var(--black);
-    color: var(--white);
+    background: var(--white);
+    color: var(--text);
     overflow-x: hidden;
   }
 
@@ -32,222 +31,425 @@
   nav {
     position: fixed; top: 0; width: 100%; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
-    padding: 1.2rem 3rem;
-    background: rgba(10,10,10,0.92);
+    padding: 0 3rem;
+    height: 70px;
+    background: transparent;
+    transition: background 0.4s, box-shadow 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(255,255,255,0.97);
     backdrop-filter: blur(8px);
-    border-bottom: 1px solid rgba(232,98,26,0.3);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
   }
   .nav-logo {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 900;
-    font-size: 1rem;
-    letter-spacing: 0.05em;
-    color: var(--white);
+    font-weight: 900; font-size: 1.1rem;
+    letter-spacing: 0.05em; color: white;
+    transition: color 0.4s;
   }
+  nav.scrolled .nav-logo { color: var(--navy); }
   .nav-logo span { color: var(--orange); }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a {
-    color: var(--white); text-decoration: none;
-    font-size: 0.8rem; letter-spacing: 0.12em;
-    opacity: 0.7; transition: opacity 0.2s;
+    color: rgba(255,255,255,0.9); text-decoration: none;
+    font-size: 0.82rem; letter-spacing: 0.08em;
+    font-weight: 500;
+    transition: color 0.2s;
+    position: relative;
   }
-  .nav-links a:hover { opacity: 1; color: var(--orange); }
+  nav.scrolled .nav-links a { color: var(--text); }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 2px; background: var(--orange);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-links a:hover::after { width: 100%; }
   .nav-tel {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.3rem; letter-spacing: 0.05em; color: var(--orange);
+    font-size: 1.4rem; letter-spacing: 0.05em;
+    color: var(--orange);
   }
 
   /* ===== HERO ===== */
   .hero {
     min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 0 3rem 5rem;
     position: relative;
+    overflow: hidden;
+    display: flex; align-items: center;
     background:
-      linear-gradient(160deg, rgba(10,10,10,0) 30%, rgba(10,10,10,0.9) 100%),
-      linear-gradient(to bottom, rgba(10,10,10,0.5), rgba(10,10,10,0.85)),
+      linear-gradient(to right, rgba(26,41,64,0.85) 0%, rgba(26,41,64,0.4) 60%, rgba(26,41,64,0.1) 100%),
       url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80') center/cover no-repeat;
   }
-  .hero::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: repeating-linear-gradient(
-      0deg, transparent, transparent 2px,
-      rgba(232,98,26,0.03) 2px, rgba(232,98,26,0.03) 4px
-    );
-    pointer-events: none;
+  .hero-inner {
+    position: relative; z-index: 2;
+    padding: 0 5rem; max-width: 750px;
   }
   .hero-tag {
-    font-size: 0.75rem; letter-spacing: 0.3em;
-    color: var(--orange); margin-bottom: 1rem;
-    text-transform: uppercase;
+    display: inline-block;
+    background: var(--orange); color: white;
+    font-size: 0.72rem; letter-spacing: 0.25em;
+    padding: 0.4rem 1.2rem; margin-bottom: 1.5rem;
+    font-weight: 700;
+    animation: slideInLeft 0.8s ease both;
   }
   .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.5rem, 9vw, 8rem);
-    line-height: 0.95;
-    letter-spacing: 0.03em;
-    color: var(--white);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 1.3;
+    color: white;
     margin-bottom: 1.5rem;
+    animation: slideInLeft 0.8s 0.2s ease both;
   }
-  .hero-title .accent { color: var(--orange); }
+  .hero-title .accent {
+    color: var(--orange);
+    display: block;
+  }
   .hero-sub {
     font-size: 1rem; font-weight: 300;
-    color: rgba(245,242,238,0.7);
-    max-width: 480px; line-height: 1.8;
-    margin-bottom: 2.5rem;
+    color: rgba(255,255,255,1);
+    line-height: 2; margin-bottom: 2.5rem;
+    animation: slideInLeft 0.8s 0.4s ease both;
   }
-  .hero-cta {
-    display: inline-flex; align-items: center; gap: 1rem;
-    background: var(--orange); color: var(--white);
-    padding: 1rem 2.5rem;
-    text-decoration: none; font-weight: 700;
-    font-size: 0.9rem; letter-spacing: 0.1em;
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 100%, 0 100%);
-    transition: background 0.2s, transform 0.2s;
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: slideInLeft 0.8s 0.6s ease both;
   }
-  .hero-cta:hover { background: var(--orange-light); transform: translateX(4px); }
-  .hero-scroll {
-    position: absolute; right: 3rem; bottom: 5rem;
-    writing-mode: vertical-rl;
-    font-size: 0.7rem; letter-spacing: 0.3em;
-    color: rgba(245,242,238,0.4);
+  .btn-primary {
+    background: var(--orange); color: white;
+    padding: 1rem 2.5rem; text-decoration: none;
+    font-weight: 700; font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+    display: inline-flex; align-items: center; gap: 0.5rem;
   }
-  .hero-scroll::after {
-    content: ''; display: block;
-    width: 1px; height: 60px;
-    background: var(--orange);
-    margin: 1rem auto 0;
-    animation: scrollLine 1.5s ease-in-out infinite;
+  .btn-primary:hover { background: var(--orange-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(232,98,26,0.4); }
+  .btn-secondary {
+    border: 2px solid white; color: white;
+    padding: 1rem 2.5rem; text-decoration: none;
+    font-weight: 700; font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
   }
-  @keyframes scrollLine {
-    0% { transform: scaleY(0); transform-origin: top; }
-    50% { transform: scaleY(1); transform-origin: top; }
-    51% { transform: scaleY(1); transform-origin: bottom; }
-    100% { transform: scaleY(0); transform-origin: bottom; }
-  }
+  .btn-secondary:hover { background: white; color: var(--navy); }
 
-  /* ===== SECTION BASE ===== */
-  section { padding: 6rem 3rem; }
-  .section-label {
-    font-size: 0.7rem; letter-spacing: 0.35em;
-    color: var(--orange); text-transform: uppercase;
-    margin-bottom: 0.8rem;
+  /* スクロールインジケーター */
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: rgba(255,255,255,0.9); font-size: 0.65rem; letter-spacing: 0.3em;
   }
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    letter-spacing: 0.05em; line-height: 1;
-    margin-bottom: 3rem;
+  @media (max-width: 768px) {
+    .hero-scroll { display: none; }
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, white, transparent);
+    animation: scrollAnim 1.8s ease-in-out infinite;
+  }
+  @keyframes scrollAnim {
+    0% { transform: scaleY(0); transform-origin: top; opacity: 1; }
+    50% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+    100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
   }
 
   /* ===== NUMBERS ===== */
   .numbers {
-    background: var(--steel);
-    padding: 4rem 3rem;
+    background: var(--navy);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0;
+    grid-template-columns: repeat(4, 1fr);
+    position: relative; z-index: 2;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
   }
   .number-item {
-    padding: 2.5rem;
-    border-right: 1px solid rgba(245,242,238,0.08);
-    text-align: center;
+    padding: 2.5rem 2rem; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+    transition: background 0.3s;
   }
+  .number-item:hover { background: rgba(232,98,26,0.15); }
   .number-item:last-child { border-right: none; }
   .number-val {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 4rem; color: var(--orange);
+    font-size: 3.5rem; color: var(--orange);
     line-height: 1;
   }
   .number-unit { font-size: 1.2rem; }
   .number-label {
-    font-size: 0.8rem; color: rgba(245,242,238,0.6);
+    font-size: 0.78rem; color: rgba(255,255,255,0.9);
     margin-top: 0.5rem; letter-spacing: 0.1em;
   }
 
+  /* ===== SECTIONS ===== */
+  section { padding: 6rem 3rem; }
+  .section-header { margin-bottom: 3rem; position: relative; }
+
+  /* セクションラベル：左からスライドイン */
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.35em;
+    color: var(--orange); text-transform: uppercase;
+    margin-bottom: 0.5rem; display: inline-block;
+    opacity: 0; transform: translateX(-30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .section-header.visible .section-label {
+    opacity: 1; transform: translateX(0);
+  }
+
+  /* セクションタイトル：カーテンが開くように出現 */
+  .section-title {
+    font-weight: 900;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--navy); line-height: 1.2;
+    position: relative; padding-bottom: 1rem;
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0.9s 0.2s cubic-bezier(0.77,0,0.18,1);
+  }
+  .section-header.visible .section-title {
+    clip-path: inset(0 0% 0 0);
+  }
+
+  /* 下線：スライドで伸びる */
+  .section-title::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 3px;
+    background: var(--orange);
+    transition: width 0.8s 0.8s ease;
+  }
+  .section-header.visible .section-title::after {
+    width: 50px;
+  }
+
+  /* 背景巨大テキスト */
+  .section-bg-text {
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 11rem);
+    color: rgba(0,0,0,0.04);
+    top: 50%; left: 0;
+    transform: translateY(-50%);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  .light-bg .section-bg-text { color: rgba(0,0,0,0.04); }
+  .section-bg-text.visible {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  /* セクション内コンテンツのzindex */
+  section { position: relative; overflow: hidden; }
+  .section-header, .services-grid, .about-inner,
+  .recruit-grid, .benefits-box, .access-inner { position: relative; z-index: 1; }
+
   /* ===== SERVICES ===== */
-  .services { background: #0f0f0f; }
+  .services { background: var(--light); }
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
   }
   .service-card {
-    background: var(--steel);
+    background: white;
     padding: 2.5rem;
+    border-radius: 2px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: all 0.3s;
     position: relative; overflow: hidden;
+  }
+  .service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+  }
+  .service-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 4px;
+    background: var(--orange);
+    transform: scaleX(0);
     transition: transform 0.3s;
   }
-  .service-card:hover { transform: translateY(-4px); }
-  .service-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: var(--orange);
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    font-size: 2.5rem; margin-bottom: 1rem;
   }
   .service-num {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 3.5rem; color: rgba(232,98,26,0.15);
-    line-height: 1; margin-bottom: 1rem;
+    font-size: 3rem; color: rgba(232,98,26,0.1);
+    line-height: 1; margin-bottom: 0.5rem;
   }
   .service-name {
-    font-size: 1.1rem; font-weight: 700;
-    margin-bottom: 0.8rem;
+    font-size: 1.15rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 0.8rem;
   }
   .service-desc {
-    font-size: 0.85rem; color: rgba(245,242,238,0.6);
-    line-height: 1.8;
+    font-size: 0.85rem; color: var(--gray); line-height: 1.9;
   }
 
   /* ===== ABOUT ===== */
-  .about {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
+  .about-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+    max-width: 1100px; margin: 0 auto;
   }
-  .about-img {
-    position: relative;
-  }
+  .about-img { position: relative; }
   .about-img img {
-    width: 100%; height: 480px;
-    object-fit: cover;
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
+    width: 100%; height: 480px; object-fit: cover;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
   }
-  .about-img::after {
-    content: '';
-    position: absolute; bottom: -12px; right: -12px;
-    width: 50%; height: 50%;
-    border-right: 3px solid var(--orange);
-    border-bottom: 3px solid var(--orange);
+  .about-img::before {
+    content: ''; position: absolute;
+    top: -15px; left: -15px; right: 15px; bottom: 15px;
+    border: 3px solid var(--orange);
+    z-index: -1;
   }
   .about-text p {
-    font-size: 0.9rem; line-height: 2;
-    color: rgba(245,242,238,0.75);
-    margin-bottom: 1.5rem;
+    font-size: 0.9rem; line-height: 2.2;
+    color: var(--gray); margin-bottom: 1.5rem;
   }
   .about-table { width: 100%; margin-top: 2rem; border-collapse: collapse; }
-  .about-table tr { border-bottom: 1px solid rgba(245,242,238,0.1); }
-  .about-table td { padding: 0.8rem 0; font-size: 0.85rem; }
+  .about-table tr { border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .about-table td { padding: 0.9rem 0; font-size: 0.85rem; }
   .about-table td:first-child {
     color: var(--orange); font-weight: 700;
-    width: 120px; letter-spacing: 0.05em;
+    width: 130px; letter-spacing: 0.05em;
   }
-  .about-table td:last-child { color: rgba(245,242,238,0.75); }
+  .about-table td:last-child { color: var(--text); }
+
+  /* ===== WORKS ===== */
+  .works { background: var(--navy); }
+  .works .section-title { color: var(--white); }
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+  .work-item {
+    position: relative; overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+  }
+  .work-item img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    filter: brightness(0.85);
+  }
+  .work-item:hover img {
+    transform: scale(1.08);
+    filter: brightness(0.6);
+  }
+  .work-item-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    background: linear-gradient(to top, rgba(10,22,40,0.85) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .work-item:hover .work-item-overlay { opacity: 1; }
+  .work-item-tag {
+    font-size: 0.68rem; letter-spacing: 0.2em;
+    color: var(--orange); font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .work-item-title {
+    font-size: 0.9rem; font-weight: 700;
+    color: white; line-height: 1.4;
+  }
+  .works-note {
+    text-align: center;
+    font-size: 0.78rem; color: rgba(255,255,255,0.4);
+    margin-top: 2rem; letter-spacing: 0.1em;
+  }
+
+  /* ===== RECRUIT ===== */
+  .recruit { background: var(--light); }
+  .recruit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem; margin-bottom: 3rem;
+  }
+  .recruit-card {
+    background: white; padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.3s;
+    border-left: 4px solid var(--orange);
+  }
+  .recruit-card:hover { transform: translateY(-4px); }
+  .recruit-card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; color: rgba(232,98,26,0.2);
+    line-height: 1; margin-bottom: 0.5rem;
+  }
+  .recruit-card-title {
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 1rem;
+  }
+  .recruit-card-desc {
+    font-size: 0.85rem; color: var(--gray); line-height: 2;
+  }
+  .benefits-box {
+    background: var(--navy); padding: 2.5rem;
+    color: white; margin-bottom: 2rem;
+  }
+  .benefits-title {
+    font-size: 0.75rem; letter-spacing: 0.3em;
+    color: var(--orange); margin-bottom: 0.5rem;
+  }
+  .benefits-heading {
+    font-size: 1.2rem; font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .benefit-item {
+    font-size: 0.85rem; color: rgba(255,255,255,1);
+    line-height: 2;
+  }
+  .benefit-item::before { content: '✓ '; color: var(--orange); font-weight: 700; }
+
+  /* ===== ACCESS ===== */
+  .access-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: start;
+  }
+  .access-table { width: 100%; border-collapse: collapse; }
+  .access-table tr { border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .access-table td { padding: 0.9rem 0; font-size: 0.85rem; color: #333333; }
+  .access-table td:first-child {
+    color: var(--orange); font-weight: 700;
+    width: 110px;
+  }
+  .map-wrap {
+    position: relative; padding-bottom: 75%; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .map-wrap iframe {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%; border: 0;
+  }
 
   /* ===== CONTACT ===== */
-  .contact { background: var(--steel); }
-  .contact-inner {
-    max-width: 680px; margin: 0 auto; text-align: center;
-  }
+  .contact { background: var(--navy); }
+  .contact-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+  .contact .section-title { color: white; }
+  .contact .section-title::after { background: var(--orange); }
   .contact-tel {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 4rem; color: var(--orange);
     letter-spacing: 0.08em; margin: 1.5rem 0 0.5rem;
   }
   .contact-hours {
-    font-size: 0.8rem; color: rgba(245,242,238,0.5);
+    font-size: 0.8rem; color: rgba(255,255,255,0.9);
     letter-spacing: 0.1em; margin-bottom: 3rem;
   }
   .contact-form { text-align: left; }
@@ -255,14 +457,14 @@
   .form-group label {
     display: block; font-size: 0.8rem;
     letter-spacing: 0.1em; margin-bottom: 0.5rem;
-    color: rgba(245,242,238,0.6);
+    color: rgba(255,255,255,1);
   }
   .form-group input,
   .form-group textarea {
     width: 100%;
-    background: rgba(10,10,10,0.5);
-    border: 1px solid rgba(245,242,238,0.15);
-    color: var(--white);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
     padding: 0.9rem 1.2rem;
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 0.9rem;
@@ -270,53 +472,143 @@
   }
   .form-group input:focus,
   .form-group textarea:focus {
-    outline: none;
-    border-color: var(--orange);
+    outline: none; border-color: var(--orange);
+    background: rgba(255,255,255,0.12);
   }
   .form-group textarea { height: 140px; resize: vertical; }
   .form-submit {
-    width: 100%;
-    background: var(--orange); color: var(--white);
-    border: none; padding: 1.1rem;
+    width: 100%; background: var(--orange); color: white;
+    border: none; padding: 1.2rem;
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 1rem; font-weight: 700;
     letter-spacing: 0.2em; cursor: pointer;
-    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 100%, 16px 100%);
-    transition: background 0.2s;
+    transition: all 0.3s;
   }
-  .form-submit:hover { background: var(--orange-light); }
+  .form-submit:hover {
+    background: var(--orange-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(232,98,26,0.4);
+  }
+
+  /* ===== PHILOSOPHY ===== */
+  .philosophy {
+    background: var(--navy);
+    padding: 5rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .philosophy::before {
+    content: 'PHILOSOPHY';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12rem;
+    color: rgba(255,255,255,0.03);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    letter-spacing: 0.2em;
+    pointer-events: none;
+  }
+  .philosophy-inner { position: relative; z-index: 1; }
+  .philosophy-en {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 0.5em;
+    color: var(--orange); margin-bottom: 1.5rem;
+  }
+  .philosophy-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800; color: white;
+    line-height: 1.8; margin-bottom: 2rem;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 1s ease, transform 1s ease;
+    letter-spacing: 0.08em;
+  }
+  .philosophy-text.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .philosophy-accent {
+    color: var(--orange);
+    position: relative;
+  }
+  .philosophy-accent::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 3px; background: var(--orange);
+    transform: scaleX(0);
+    transition: transform 1.2s 0.5s ease;
+  }
+  .philosophy-text.visible .philosophy-accent::after {
+    transform: scaleX(1);
+  }
+  .philosophy-line {
+    width: 0; height: 2px;
+    background: linear-gradient(to right, transparent, var(--orange), transparent);
+    margin: 0 auto 1.5rem;
+    transition: width 1s 0.3s ease;
+  }
+  .philosophy-line.visible { width: 300px; }
+  .philosophy-sub {
+    font-size: 0.85rem; color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em;
+  }
 
   /* ===== FOOTER ===== */
   footer {
-    background: var(--black);
+    background: #0d1a2b;
     padding: 2rem 3rem;
     display: flex; justify-content: space-between; align-items: center;
-    border-top: 1px solid rgba(245,242,238,0.08);
   }
-  .footer-logo { font-weight: 900; font-size: 0.9rem; }
+  .footer-logo { font-weight: 900; font-size: 1rem; color: white; }
   .footer-logo span { color: var(--orange); }
-  .footer-copy { font-size: 0.75rem; color: rgba(245,242,238,0.3); }
+  .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.3); }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .fade-in {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  .slide-in-left {
+    opacity: 0; transform: translateX(-40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .slide-in-left.visible { opacity: 1; transform: translateX(0); }
+
+  .slide-in-right {
+    opacity: 0; transform: translateX(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .slide-in-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* モバイルではアニメーション初期状態を表示済みに */
+  @media (max-width: 768px) {
+    .slide-in-left, .slide-in-right, .fade-in {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
+    nav { padding: 0 1.5rem; }
     .nav-links { display: none; }
-    .nav-tel { font-size: 1rem; }
-    .hero { padding: 0 1.5rem 4rem; }
+    .hero-inner { padding: 0 1.5rem; }
     section { padding: 4rem 1.5rem; }
-    .about { grid-template-columns: 1fr; gap: 3rem; }
     .numbers { grid-template-columns: repeat(2, 1fr); }
-    .number-item { border-right: none; border-bottom: 1px solid rgba(245,242,238,0.08); }
+    .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-img img { height: 280px; }
+    .access-inner { grid-template-columns: 1fr; gap: 2rem; }
     footer { flex-direction: column; gap: 1rem; text-align: center; }
-    #access .about, #access > section > div { grid-template-columns: 1fr; gap: 2rem; }
   }
-
-  /* ===== FADE IN ===== */
-  .fade-in {
-    opacity: 0; transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
@@ -327,31 +619,40 @@
   <ul class="nav-links">
     <li><a href="#services">事業内容</a></li>
     <li><a href="#about">会社概要</a></li>
+    <li><a href="#works">施工実績</a></li>
     <li><a href="#recruit">採用情報</a></li>
     <li><a href="#access">アクセス</a></li>
     <li><a href="#contact">お問い合わせ</a></li>
   </ul>
-  <div class="nav-tel">0564-54-7217</div>
+  <div class="nav-tel">090-8325-1143</div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-tag">Onotsuka Construction Co., Ltd.</p>
-  <h1 class="hero-title">
-    地に足をつけ、<br>
-    <span class="accent">空へ届く</span><br>
-    仕事を。
-  </h1>
-  <p class="hero-sub">
-    とび・土工工事のプロフェッショナルとして、<br>
-    愛知県を中心に確かな技術と安全で現場を支えます。
-  </p>
-  <a href="#contact" class="hero-cta">無料見積もりはこちら →</a>
-  <span class="hero-scroll">SCROLL</span>
+  <div class="hero-inner">
+    <span class="hero-tag">ONODUZA CONSTRUCTION Co.,Ltd.</span>
+    <h1 class="hero-title">
+      地に足をつけ、
+      <span class="accent">空へ届く仕事を。</span>
+    </h1>
+    <p class="hero-sub">
+      足場鳶のプロフェッショナルとして、<br>
+      愛知県を中心に確かな技術と安全で<br>
+      現場を支えます。
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">無料見積もりはこちら →</a>
+      <a href="#services" class="btn-secondary">事業内容を見る</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
 </section>
 
 <!-- NUMBERS -->
-<div class="numbers">
+<div class="numbers" style="grid-template-columns: repeat(3, 1fr);">
   <div class="number-item fade-in">
     <div class="number-val">20<span class="number-unit">年</span></div>
     <div class="number-label">業界経験</div>
@@ -360,177 +661,251 @@
     <div class="number-val">500<span class="number-unit">+</span></div>
     <div class="number-label">施工実績</div>
   </div>
-  <div class="number-item fade-in">
-    <div class="number-val">0</div>
-    <div class="number-label">重大事故件数</div>
+  <div class="number-item fade-in" style="border-right:none;">
+    <div class="number-val">20<span class="number-unit">種以上</span></div>
+    <div class="number-label">保有資格</div>
   </div>
-  <div class="number-item fade-in">
-    <div class="number-val">24<span class="number-unit">h</span></div>
-    <div class="number-label">緊急対応可</div>
+</div>
+
+<!-- PHILOSOPHY -->
+<div class="philosophy">
+  <div class="philosophy-inner">
+    <div class="philosophy-en fade-in">OUR PHILOSOPHY</div>
+    <div class="philosophy-text fade-in">
+      足場を通じて<br>
+      <span class="philosophy-accent">関わる全ての人を</span><br>
+      幸せにする
+    </div>
+    <div class="philosophy-line fade-in"></div>
+    <div class="philosophy-sub fade-in">株式会社小野塚工業<br>代表取締役　小野塚　篤人</div>
   </div>
 </div>
 
 <!-- SERVICES -->
 <section class="services" id="services">
-  <p class="section-label">Our Services</p>
-  <h2 class="section-title">事業内容</h2>
+  <div class="section-bg-text">SERVICES</div>
+  <div class="section-header">
+    <span class="section-label">Our Services</span>
+    <h2 class="section-title">事業内容</h2>
+  </div>
   <div class="services-grid">
     <div class="service-card fade-in">
       <div class="service-num">01</div>
-      <div class="service-name">足場組立・解体工事</div>
-      <div class="service-desc">建築・外装・塗装工事に欠かせない足場の設置・解体を行います。くさび緊結式・枠組足場など現場に合わせた工法で、安全かつスピーディーに施工します。</div>
+      <div class="service-name">足場工事全般</div>
+      <div class="service-desc">くさび緊結式・枠組足場など各種足場の組立・解体に対応。仮囲い工事も承ります。大型物件から一般住宅まで、どんな現場にも柔軟に対応します。</div>
     </div>
     <div class="service-card fade-in">
       <div class="service-num">02</div>
-      <div class="service-name">仮設足場工事</div>
-      <div class="service-desc">新築・リフォーム・改修工事に伴う仮設足場の設計・施工。工期・コストを最適化しながら、安全基準を満たした足場環境を提供します。</div>
+      <div class="service-name">タワークレーン・鉄骨建て方</div>
+      <div class="service-desc">タワークレーンの組立・解体、鉄骨建て方など大型案件にも対応。有資格者が安全・迅速に施工します。</div>
     </div>
     <div class="service-card fade-in">
       <div class="service-num">03</div>
-      <div class="service-name">安全管理・点検</div>
-      <div class="service-desc">足場設置後の定期点検・安全確認を徹底。労働安全衛生法に基づいた管理体制で、現場の安全を守ります。</div>
+      <div class="service-name">安全管理・各種対応</div>
+      <div class="service-desc">足場設置後の定期点検・安全確認を徹底。東海4県を対応エリアとし、急な依頼にも柔軟に対応します。</div>
     </div>
   </div>
 </section>
 
 <!-- ABOUT -->
-<section id="about">
-  <p class="section-label">About Us</p>
-  <h2 class="section-title">会社概要</h2>
-  <div class="about">
-    <div class="about-img fade-in">
+<section id="about" style="background:#ffffff;">
+  <div class="section-bg-text">COMPANY</div>
+  <div class="section-header">
+    <span class="section-label">About Us</span>
+    <h2 class="section-title">会社概要</h2>
+  </div>
+  <div class="about-inner">
+    <div class="about-img slide-in-left">
       <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80" alt="施工現場">
     </div>
-    <div class="about-text fade-in">
-      <p>株式会社小野塚工業は、愛知県を拠点にとび・土工工事を中心とした建設業を営んでいます。創業以来、「安全第一・品質至上」を理念に、地域の建設現場を支え続けてきました。</p>
-      <p>熟練の職人と最新の重機を駆使し、どんな現場にも柔軟に対応。お客様の信頼に応える仕事を、これからも追求してまいります。</p>
+    <div class="slide-in-right" style="color:#333333;">
+      <p style="color:#666666;">弊社はどんな現場でもこなしていける対応や技術力を兼ね備えております。求められるものに対して全力で向き合い、安心で安全な物を提供させていただきます。</p>
+
       <table class="about-table">
         <tr><td>会社名</td><td>株式会社小野塚工業</td></tr>
         <tr><td>代表者</td><td>小野塚 篤人（オノヅカ アツヒト）</td></tr>
         <tr><td>所在地</td><td>愛知県岡崎市福桶町字上三丁23-2</td></tr>
-        <tr><td>電話</td><td>0564-54-7217</td></tr>
+        <tr><td>電話</td><td>090-8325-1143</td></tr>
         <tr><td>資本金</td><td>500万円</td></tr>
-        <tr><td>許可番号</td><td>愛知県知事許可 第075612号</td></tr>
-        <tr><td>業務内容</td><td>とび・土工工事</td></tr>
+        <tr><td>設立</td><td>2021年10月12日</td></tr>
+        <tr><td>従業員数</td><td>10名</td></tr>
+        <tr><td>許可番号</td><td>とび・土工工事業　知事一般-04　第076-5612</td></tr>
+        <tr><td>インボイス</td><td>T7180301035506</td></tr>
+        <tr><td>対応エリア</td><td>東海4県（愛知・岐阜・三重・静岡）</td></tr>
+        <tr><td>保有資格</td><td>鳶一級・足場の組立等作業主任者・全豊田作業責任者、など多数</td></tr>
       </table>
     </div>
   </div>
+</section>
+
+<!-- WORKS -->
+<section class="works" id="works">
+  <div class="section-bg-text" style="color:rgba(255,255,255,0.04);">WORKS</div>
+  <div class="section-header">
+    <span class="section-label" style="color:var(--orange);">Our Works</span>
+    <h2 class="section-title" style="color:white;">施工実績</h2>
+  </div>
+  <div class="works-grid">
+    <!-- 1 -->
+    <div class="work-item fade-in">
+      <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="足場工事1">
+      <div class="work-item-overlay">
+        <div class="work-item-tag">SCAFFOLDING</div>
+        <div class="work-item-title">足場組立工事<br>（愛知県内・集合住宅）</div>
+      </div>
+    </div>
+    <!-- 2 -->
+    <div class="work-item fade-in">
+      <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80" alt="足場工事2">
+      <div class="work-item-overlay">
+        <div class="work-item-tag">SCAFFOLDING</div>
+        <div class="work-item-title">仮設足場工事<br>（愛知県内・商業施設）</div>
+      </div>
+    </div>
+    <!-- 3 -->
+    <div class="work-item fade-in">
+      <img src="https://images.unsplash.com/photo-1590496793929-36417d3117de?w=800&q=80" alt="足場工事3">
+      <div class="work-item-overlay">
+        <div class="work-item-tag">SCAFFOLDING</div>
+        <div class="work-item-title">足場解体工事<br>（岐阜県内・工場）</div>
+      </div>
+    </div>
+    <!-- 4 -->
+    <div class="work-item fade-in">
+      <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80" alt="足場工事4">
+      <div class="work-item-overlay">
+        <div class="work-item-tag">SCAFFOLDING</div>
+        <div class="work-item-title">鉄骨建て方工事<br>（愛知県内・大型倉庫）</div>
+      </div>
+    </div>
+    <!-- 5 -->
+    <div class="work-item fade-in">
+      <img src="https://images.unsplash.com/photo-1509803874385-db7c23652552?w=800&q=80" alt="足場工事5">
+      <div class="work-item-overlay">
+        <div class="work-item-tag">SCAFFOLDING</div>
+        <div class="work-item-title">タワークレーン工事<br>（三重県内・マンション）</div>
+      </div>
+    </div>
+    <!-- 6 -->
+    <div class="work-item fade-in">
+      <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80" alt="足場工事6">
+      <div class="work-item-overlay">
+        <div class="work-item-tag">SCAFFOLDING</div>
+        <div class="work-item-title">仮囲い工事<br>（愛知県内・一般住宅）</div>
+      </div>
+    </div>
+  </div>
+  <p class="works-note">※ 写真はイメージです。実際の施工写真に差し替え予定</p>
 </section>
 
 <!-- RECRUIT -->
-<section id="recruit" style="background:#0f0f0f;">
-  <p class="section-label">Recruit</p>
-  <h2 class="section-title">採用情報</h2>
-  <div style="max-width:800px;margin:0 auto;">
-    <p style="font-size:0.95rem;line-height:2;color:rgba(245,242,238,0.75);margin-bottom:3rem;">
-      株式会社小野塚工業では、共に成長できる仲間を募集しています。<br>
-      経験者はもちろん、やる気のある未経験者も大歓迎です。<br>
-      安心して長く働ける環境を整えています。
-    </p>
-
-    <!-- 求人カード -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px;margin-bottom:3rem;">
-
-      <div class="service-card fade-in">
-        <div class="service-num">01</div>
-        <div class="service-name">鳶職　正社員</div>
-        <div class="service-desc" style="line-height:2;">
-          雇用形態：正社員<br>
-          給与：月給216,000円〜432,000円<br>
-          勤務地：愛知県岡崎市福桶町字上三丁23-2<br>
-          必要免許：普通自動車免許（一種）<br>
-          年間休日：105日（日曜・会社指定日）
-        </div>
-      </div>
-
-      <div class="service-card fade-in">
-        <div class="service-num">02</div>
-        <div class="service-name">仕事内容</div>
-        <div class="service-desc" style="line-height:2;">
-          愛知県内を中心とした各建築現場での足場組立を主とした「鳶工事全般」に従事していただきます。<br><br>
-          未経験の方も丁寧に指導します。やる気のある方大歓迎！
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 待遇・福利厚生 -->
-    <div style="background:var(--steel);padding:2.5rem;margin-bottom:2rem;">
-      <p style="font-size:0.8rem;letter-spacing:0.3em;color:var(--orange);margin-bottom:1rem;">BENEFITS</p>
-      <p style="font-size:1rem;font-weight:700;margin-bottom:1.5rem;">待遇・福利厚生</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;">
-        <div style="font-size:0.85rem;color:rgba(245,242,238,0.75);line-height:2;">
-          ✓ 雇用保険<br>
-          ✓ 労災保険<br>
-          ✓ 健康保険
-        </div>
-        <div style="font-size:0.85rem;color:rgba(245,242,238,0.75);line-height:2;">
-          ✓ 厚生年金<br>
-          ✓ 車・バイク通勤可<br>
-          ✓ 6ヶ月後に有給10日付与
-        </div>
-        <div style="font-size:0.85rem;color:rgba(245,242,238,0.75);line-height:2;">
-          ✓ 経験者優遇<br>
-          ✓ 未経験者研修あり<br>
-          ✓ 募集人数：5名
-        </div>
-      </div>
-    </div>
-
-    <p style="font-size:0.85rem;color:rgba(245,242,238,0.6);text-align:center;line-height:2;">
-      まずはお気軽にお電話ください。<br>
-      <span style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--orange);letter-spacing:0.08em;">0564-54-7217</span><br>
-      担当：小野塚まで
-    </p>
+<section class="recruit" id="recruit">
+  <div class="section-bg-text">RECRUIT</div>
+  <div class="section-header">
+    <span class="section-label">Recruit</span>
+    <h2 class="section-title">採用情報</h2>
   </div>
+  <p class="fade-in" style="font-size:0.95rem;line-height:2;color:var(--gray);margin-bottom:2.5rem;max-width:700px;">
+    株式会社小野塚工業では、共に成長できる仲間を募集しています。経験者はもちろん、やる気のある未経験者も大歓迎です。
+  </p>
+  <div class="recruit-grid">
+    <div class="recruit-card fade-in">
+      <div class="recruit-card-num">01</div>
+      <div class="recruit-card-title">鳶職　正社員</div>
+      <div class="recruit-card-desc">
+        雇用形態：正社員<br>
+        給与：月給216,000円〜432,000円<br>
+        勤務地：愛知県岡崎市福桶町字上三丁23-2<br>
+        必要免許：普通自動車免許（一種）<br>
+        年間休日：105日（日曜・会社指定日）
+      </div>
+    </div>
+    <div class="recruit-card fade-in">
+      <div class="recruit-card-num">02</div>
+      <div class="recruit-card-title">仕事内容</div>
+      <div class="recruit-card-desc">
+        愛知県内を中心とした各建築現場での足場組立を主とした「鳶工事全般」に従事していただきます。<br><br>
+        未経験の方も丁寧に指導します。やる気のある方大歓迎！
+      </div>
+    </div>
+  </div>
+  <div class="benefits-box fade-in">
+    <div class="benefits-title">BENEFITS</div>
+    <div class="benefits-heading">待遇・福利厚生</div>
+    <div class="benefits-grid">
+      <div>
+        <div class="benefit-item">社会保険完備</div>
+        <div class="benefit-item">厚生年金</div>
+        <div class="benefit-item">雇用保険</div>
+        <div class="benefit-item">労災・労災者災害補償保険</div>
+      </div>
+      <div>
+        <div class="benefit-item">寮完備</div>
+        <div class="benefit-item">子供手当あり</div>
+        <div class="benefit-item">有給休暇あり</div>
+        <div class="benefit-item">出勤日数相談可能</div>
+      </div>
+      <div>
+        <div class="benefit-item">年2回ボーナス</div>
+        <div class="benefit-item">退職金制度あり</div>
+        <div class="benefit-item">資格取得支援</div>
+        <div class="benefit-item">車・バイク通勤可</div>
+      </div>
+    </div>
+  </div>
+  <p class="fade-in" style="font-size:0.9rem;color:var(--gray);text-align:center;line-height:2;">
+    まずはお気軽にお電話ください。<br>
+    <span style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--orange);letter-spacing:0.08em;">090-8325-1143</span><br>
+    担当：小野塚まで
+  </p>
 </section>
 
 <!-- ACCESS -->
-<section id="access">
-  <p class="section-label">Access</p>
-  <h2 class="section-title">アクセス</h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;">
-
-    <!-- 住所・情報 -->
-    <div class="fade-in">
-      <table class="about-table" style="margin-top:0;">
+<section id="access" style="background:#ffffff;">
+  <div class="section-bg-text">ACCESS</div>
+  <div class="section-header">
+    <span class="section-label">Access</span>
+    <h2 class="section-title">アクセス</h2>
+  </div>
+  <div class="access-inner">
+    <div class="slide-in-left" style="color:#333333;">
+      <table class="access-table">
         <tr><td>会社名</td><td>株式会社小野塚工業</td></tr>
         <tr><td>所在地</td><td>愛知県岡崎市福桶町字上三丁23-2</td></tr>
-        <tr><td>電話</td><td>0564-54-7217</td></tr>
-        <tr><td>受付時間</td><td>平日 8:00〜18:00<br>（土曜応相談）</td></tr>
-        <tr><td>最寄り駅</td><td>名鉄名古屋本線<br>「矢作橋駅」より車で約5分</td></tr>
+        <tr><td>電話</td><td>090-8325-1143</td></tr>
+        <tr><td>受付時間</td><td>平日 8:00〜18:00（土曜応相談）</td></tr>
+        <tr><td>最寄り駅</td><td>名鉄名古屋本線「矢作橋駅」より車で約5分</td></tr>
       </table>
     </div>
-
-    <!-- Googleマップ -->
-    <div class="fade-in">
-      <div style="position:relative;width:100%;padding-bottom:75%;overflow:hidden;">
+    <div class="slide-in-right">
+      <div class="map-wrap" style="position:relative;width:100%;height:350px;padding-bottom:0;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.1);">
         <iframe
-          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&q=愛知県岡崎市正名町字西之切57-1"
-          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
-          allowfullscreen=""
-          loading="lazy"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3272.5385886189138!2d137.1187991762658!3d34.892931172873354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6004963e9ee99a0f%3A0xde2a02d522609404!2z44CSNDQ0LTAyMzMg5oSb55-l55yM5bKh5bSO5biC56aP5qG255S65LiK5LiJ5LiB77yS77yT4oiS77yS!5e0!3m2!1sja!2sjp!4v1780667802090!5m2!1sja!2sjp"
+          width="100%" height="350"
+          style="border:0;display:block;"
+          allowfullscreen="" loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
       </div>
-      <p style="font-size:0.75rem;color:rgba(245,242,238,0.4);margin-top:0.8rem;">
+      <p style="font-size:0.75rem;color:#666666;margin-top:0.8rem;">
         ※地図は参考表示です。詳しくはお電話にてご確認ください。
       </p>
     </div>
-
   </div>
 </section>
 
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="contact-inner">
-    <p class="section-label">Contact</p>
-    <h2 class="section-title">お問い合わせ</h2>
-    <p style="font-size:0.85rem;color:rgba(245,242,238,0.6);line-height:1.9;margin-bottom:1rem;">
+    <div class="section-header fade-in" style="text-align:center;">
+      <span class="section-label" style="display:block;text-align:center;">Contact</span>
+      <h2 class="section-title" style="display:inline-block;">お問い合わせ</h2>
+    </div>
+    <p class="fade-in" style="font-size:0.85rem;color:rgba(255,255,255,0.9);line-height:1.9;margin-bottom:1rem;">
       お見積り・ご相談は無料です。お気軽にご連絡ください。
     </p>
-    <div class="contact-tel">0564-54-7217</div>
-    <p class="contact-hours">受付時間：平日 8:00〜18:00（土曜応相談）</p>
+    <div class="contact-tel fade-in">090-8325-1143</div>
+    <p class="contact-hours fade-in">受付時間：平日 8:00〜18:00（土曜応相談）</p>
     <div class="contact-form fade-in">
       <div class="form-group">
         <label>お名前 *</label>
@@ -558,19 +933,72 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">株式会社<span>小野塚工業</span></div>
-  <div class="footer-copy">© 2024 Onotsuka Construction Co., Ltd. All Rights Reserved.</div>
+  <div class="footer-copy">© 2026 Onoduza Construction Co., Ltd. All Rights Reserved.</div>
 </footer>
 
 <script>
-  // Fade in on scroll
+  // スクロールアニメーション
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 100);
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
       }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right')
+    .forEach(el => observer.observe(el));
+
+  // セクションヘッダー・背景テキスト用オブザーバー
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.section-header, .section-bg-text')
+    .forEach(el => sectionObserver.observe(el));
+
+  // ナビゲーション スクロール時の背景変化
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 80) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  // 数字カウントアップアニメーション
+  const countUp = (el, target, suffix) => {
+    let count = 0;
+    const step = target / 60;
+    const timer = setInterval(() => {
+      count += step;
+      if (count >= target) {
+        count = target;
+        clearInterval(timer);
+      }
+      el.textContent = Math.floor(count) + suffix;
+    }, 16);
+  };
+
+  const numberObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const items = document.querySelectorAll('.number-val');
+        countUp(items[0], 20, '年');
+        countUp(items[1], 500, '+');
+        countUp(items[2], 20, '種以上');
+        numberObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const numbersEl = document.querySelector('.numbers');
+  if (numbersEl) numberObserver.observe(numbersEl);
 </script>
 </body>
 </html>
